@@ -1,0 +1,49 @@
+{% extends "licenses/base.html" %}
+{% block title %}Ajouter une Offre de Vente{% endblock %}
+{% block content %}
+<div class="content">
+    <h1 class="page-title">Ajouter une Offre de Vente</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="license_key">Clé de Licence (UUID)</label>
+            <input type="text" id="license_key" name="license_key" class="form-control" required>
+            <small class="form-text text-muted">Copiez la clé de licence depuis "Mes Licences"</small>
+        </div>
+
+        <div class="form-group">
+            <label for="license_category">Catégorie de licence</label>
+            <select id="license_category" name="license_category" class="form-control" required>
+                <option value="">-- Sélectionnez --</option>
+                <option value="MICRO">Micro</option>
+                <option value="MACRO">Macro</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="volume">Volume</label>
+            <input type="number" step="0.01" min="0.1" id="volume" name="volume" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Prix (€)</label>
+            <input type="number" step="0.01" min="0.01" id="price" name="price" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">➕ Ajouter l'offre</button>
+    </form>
+
+    <div class="mt-5">
+        <h5>💡 Astuce :</h5>
+        <p>Vous pouvez retrouver votre clé de licence dans la page <a href="{% url 'my_licenses' %}">"Mes Licences"</a>.</p>
+    </div>
+</div>
+{% endblock %}

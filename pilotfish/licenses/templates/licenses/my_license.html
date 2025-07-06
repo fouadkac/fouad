@@ -1,0 +1,92 @@
+{% extends "licenses/base.html" %}
+{% block title %}Mes Licences{% endblock %}
+{% block content %}
+<div class="content">
+    <h1 class="page-title mb-4">Mes Licences</h1>
+
+    {% if licenses %}
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Clé <small class="text-muted">(Copier)</small></th>
+                    <th>Type</th>
+                    <th>Volume</th>
+                    <th>Login ID</th>
+                    <th>Nom</th>
+                    <th>Broker</th>
+                    <th>Achat</th>
+                    <th>Compte</th>
+                    <th>Jours manqués</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for license in licenses %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <code id="key-{{ forloop.counter }}">{{ license.key }}</code>
+                            <button 
+                                class="btn btn-sm btn-outline-primary ms-2 copy-btn" 
+                                data-target="key-{{ forloop.counter }}" 
+                                title="Copier la clé"
+                                aria-label="Copier la clé de licence"
+                            >
+                                📋
+                            </button>
+                        </div>
+                    </td>
+                    <td>{{ license.get_license_type_display }}</td>
+                    <td>{{ license.volume }}</td>
+                    <td>{{ license.login_id }}</td>
+                    <td>{{ license.user_name }}</td>
+                    <td>{{ license.broker }}</td>
+                    <td>{{ license.created_at|date:"Y-m-d" }}</td>
+                    <td>{{ license.trading_account|default:"-" }}</td>
+                    <td>
+                        {% if license.license_type == "MICRO" %}
+                            {{ license.days_missed }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if license.active %}
+                            <span class="badge bg-success">Active</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-muted fst-italic">Aucune licence disponible.</p>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const copyButtons = document.querySelectorAll('.copy-btn');
+
+    copyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            const textToCopy = document.getElementById(targetId).innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                button.innerText = '✅'; // changement visuel temporaire
+                setTimeout(() => {
+                    button.innerText = '📋';
+                }, 1500);
+            }).catch(() => {
+                alert('Erreur lors de la copie');
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Connexion - Pilot Fish</title>
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #e0f0ff 0%, #f4f7fa 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #222;
+        }
+        .login-container {
+            background: white;
+            padding: 2.5rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgb(0 122 204 / 0.25);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            margin-bottom: 1.8rem;
+            font-weight: 700;
+            color: #007acc;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #444;
+        }
+        form input[type="text"],
+        form input[type="password"] {
+            width: 100%;
+            padding: 0.65rem 1rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        form input[type="text"]:focus,
+        form input[type="password"]:focus {
+            border-color: #007acc;
+            outline: none;
+            box-shadow: 0 0 6px #a3d1ff;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 25%; /* Placé plus haut */
+            transform: translateY(-25%);
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            fill: #007acc;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .toggle-password:hover {
+            opacity: 1;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #007acc;
+            color: white;
+            padding: 0.9rem 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #005fa3;
+            box-shadow: 0 6px 15px rgb(0 95 163 / 0.6);
+        }
+
+        .forgot-password {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .forgot-password a {
+            color: #007acc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Connexion</h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" required autofocus>
+
+            <label for="password">Mot de passe</label>
+            <div class="input-container">
+                <input type="password" id="password" name="password" required>
+                <svg class="toggle-password" onclick="togglePassword('password')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" aria-label="Afficher/Masquer le mot de passe" role="button" tabindex="0">
+                    <path d="M572.52 241.4C518.8 135.5 407.1 64 288 64S57.16 135.5 3.481 241.4a48.285 48.285 0 000 29.16C57.16 376.5 168.9 448 288 448s230.8-71.48 284.5-177.4a48.285 48.285 0 000-29.2zM288 400c-97.05 0-189.4-55.72-240.3-144C98.59 167.7 190.1 112 288 112s189.4 55.72 240.3 144C477.4 344.3 385 400 288 400zm0-256c-61.86 0-112 50.14-112 112s50.14 112 112 112 112-50.14 112-112S349.9 144 288 144zm0 176c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.7 64-64 64z"/>
+                </svg>
+            </div>
+
+            <button type="submit">Connexion</button>
+        </form>
+
+        <div class="forgot-password">
+            <a href="{% url 'forgot_password' %}">J'ai oublié mon mot de passe</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.type = field.type === "password" ? "text" : "password";
+            }
+        }
+    </script>
+</body>
+</html>

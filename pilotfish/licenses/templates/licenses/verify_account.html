@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vérification du compte - Pilot Fish</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #e0f0ff 0%, #f4f7fa 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      color: #222;
+    }
+    .verify-container {
+      background: white;
+      padding: 3rem 3.5rem;
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0, 122, 204, 0.25);
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      color: #007acc;
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      font-size: 2.2rem;
+    }
+    p.instruction {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      color: #444;
+      font-weight: 600;
+    }
+    form {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      color: #555;
+      font-size: 0.85rem;
+      margin-bottom: 0.2rem;
+      text-align: left;
+    }
+    input[type="text"] {
+      padding: 0.45rem 0.6rem;
+      border-radius: 6px;
+      border: 2px solid #ccc;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #007acc;
+      box-shadow: 0 0 6px #a3d1ff;
+    }
+    .code-group {
+      grid-column: 1 / -1;
+      text-align: left;
+      margin-top: 1rem;
+    }
+    .code-group label {
+      margin-bottom: 0.3rem;
+    }
+    .code-group input {
+      width: 100%;
+      padding: 0.55rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+    }
+    .code-group input:focus {
+      border-color: #007acc;
+      box-shadow: 0 0 6px #a3d1ff;
+      outline: none;
+    }
+    button {
+      grid-column: 1 / -1;
+      margin-top: 1.5rem;
+      padding: 0.9rem 0;
+      background-color: #007acc;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      background-color: #005fa3;
+      box-shadow: 0 8px 20px rgba(0, 95, 163, 0.4);
+    }
+    ul.messages {
+      list-style: none;
+      margin-bottom: 1.8rem;
+      padding-left: 0;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    ul.messages li {
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.8rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 3px 8px rgb(0 0 0 / 0.05);
+    }
+    ul.messages li.error {
+      background-color: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+    ul.messages li.success {
+      background-color: #d1e7dd;
+      color: #0f5132;
+      border: 1px solid #badbcc;
+    }
+    @media (max-width: 640px) {
+      form {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 400px) {
+      form {
+        grid-template-columns: 1fr;
+      }
+      .code-group {
+        grid-column: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="verify-container">
+    <h1>Vérifiez votre compte</h1>
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <p class="instruction">Entrez les 10 mots de votre phrase de sécurité dans l'ordre :</p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% for i in "1234567890" %}
+        <div>
+          <label for="word{{ forloop.counter }}">Mot {{ forloop.counter }}</label>
+          <input type="text" id="word{{ forloop.counter }}" name="word{{ forloop.counter }}" value="{{ request.POST.word|default_if_none:'' }}" required autocomplete="off" />
+        </div>
+      {% endfor %}
+
+      <div class="code-group">
+        <label for="code">Code de confirmation</label>
+        <input type="text" id="code" name="code" value="{{ request.POST.code|default_if_none:'' }}" required autocomplete="off" />
+      </div>
+
+      <button type="submit">Vérifier</button>
+    </form>
+  </section>
+</body>
+</html>

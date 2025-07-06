@@ -1,0 +1,54 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1 style="margin-bottom: 1rem;">📋 Liste des Licences</h1>
+<table class="admin-table" style="width: 100%; border-collapse: collapse;">
+    <thead style="background-color: #f5f5f5;">
+        <tr>
+            <th style="padding: 8px; border: 1px solid #ddd;">Clé de Licence</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Utilisateur</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Login ID</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Broker</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Type</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actif</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for license in licenses %}
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd; font-family: monospace; position: relative;">
+                {{ license.key }}
+                <button onclick="copyToClipboard('{{ license.key }}')" 
+                        style="margin-left: 10px; padding: 3px 8px; font-size: 0.8rem; cursor: pointer; border-radius: 4px; border: none; background-color: #007acc; color: white;">
+                    Copier
+                </button>
+            </td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ license.owner.username }}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ license.login_id }}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ license.broker }}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">{{ license.license_type }}</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">
+                {% if license.active %}
+                    <span style="color: green; font-weight: bold;">Oui</span>
+                {% else %}
+                    <span style="color: red; font-weight: bold;">Non</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" style="text-align: center; padding: 1rem;">Aucune licence trouvée.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Clé de licence copiée dans le presse-papier !");
+    }, () => {
+        alert("Erreur lors de la copie de la clé.");
+    });
+}
+</script>
+{% endblock %}

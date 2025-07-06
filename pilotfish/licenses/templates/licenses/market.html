@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Marché</title></head>
+<body>
+    <h1>Marché des licences</h1>
+    <ul>
+    {% for offer in offers %}
+        <li>{{ offer.license.key }} - {{ offer.price }}€ - <a href="/market/buy/{{ offer.id }}/">Acheter</a></li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

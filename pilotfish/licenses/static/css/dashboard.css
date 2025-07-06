@@ -1,0 +1,173 @@
+/* Fond mauve global */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #7b4cbf; /* Mauve clair */
+    color: #fff;
+}
+
+/* Sidebar verticale fixe */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    background: linear-gradient(180deg, #4a238b, #7b4cbf);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.4);
+    z-index: 1000;
+}
+
+/* Style des boutons dans la sidebar */
+.sidebar button {
+    width: 160px;
+    margin: 10px 0;
+    padding: 12px 0;
+    border: none;
+    border-radius: 25px;
+    background-color: #6a34b3;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Effet au survol */
+.sidebar button:hover {
+    background-color: #4a238b;
+    box-shadow: 0 4px 10px rgba(74, 35, 139, 0.7);
+}
+
+/* Pour le focus clavier */
+.sidebar button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px #c8b6ff;
+}
+
+/* Décalage du contenu principal pour laisser la place à la sidebar */
+main.content {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+/* Exemple de style pour ta topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(255 255 255 / 0.15);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    user-select: none;
+}
+
+/* Style des titres */
+.left-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Style des boutons auth */
+.auth-buttons a,
+.auth-buttons button {
+    color: #e6d7ff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.auth-buttons button:hover,
+.auth-buttons a:hover {
+    color: #fff;
+}
+/* Modals */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    background-color: #1a1a2e;
+    color: white;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    padding: 20px;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-submit {
+    background-color: #2575fc;
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #1a57c4;
+}
+
+.btn-close {
+    background-color: #666;
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    background-color: #444;
+}
+
+/* Overlay */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+#modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}

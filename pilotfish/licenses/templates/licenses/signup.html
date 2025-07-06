@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscription - Pilot Fish</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0f0ff, #f4f7fa);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      color: #222;
+    }
+
+    .signup-container {
+      background: #fff;
+      padding: 2rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(0, 122, 204, 0.25);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      color: #007acc;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    form p {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.4rem 0.7rem;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: border-color 0.2s ease;
+    }
+
+    input:focus {
+      border-color: #007acc;
+      outline: none;
+      box-shadow: 0 0 5px #a3d1ff;
+    }
+
+    .input-container {
+      position: relative;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      fill: #007acc;
+      width: 20px;
+      height: 20px;
+      opacity: 0.7;
+    }
+
+    .toggle-password:hover {
+      opacity: 1;
+    }
+
+    .errorlist {
+      color: #d9534f;
+      margin-top: 0.3rem;
+      font-size: 0.85rem;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .messages {
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .messages.error {
+      background: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+
+    .messages.success {
+      background: #d1e7dd;
+      color: #0f5132;
+      border: 1px solid #badbcc;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 0.65rem 0;
+      background: linear-gradient(to right, #007acc, #00bcd4);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(to right, #005fa3, #0097a7);
+      box-shadow: 0 6px 15px rgba(0, 95, 163, 0.5);
+    }
+
+    p.login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    p.login-link a {
+      color: #007acc;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    p.login-link a:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 1.5rem 1.2rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      button[type="submit"] {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h1>Créer un compte</h1>
+
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="messages {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <p>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+      </p>
+
+      <p>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {{ form.email.errors }}
+      </p>
+
+      <p>
+        {{ form.password1.label_tag }}
+        <div class="input-container">
+          {{ form.password1 }}
+          <svg class="toggle-password" onclick="togglePassword('id_password1')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+            <path d="M572.52 241.4C518.8 135.5 407.1 64 288 64S57.16 135.5 3.481 241.4a48.285 48.285 0 000 29.16C57.16 376.5 168.9 448 288 448s230.8-71.48 284.5-177.4a48.285 48.285 0 000-29.2zM288 400c-97.05 0-189.4-55.72-240.3-144C98.59 167.7 190.1 112 288 112s189.4 55.72 240.3 144C477.4 344.3 385 400 288 400zm0-256c-61.86 0-112 50.14-112 112s50.14 112 112 112 112-50.14 112-112S349.9 144 288 144zm0 176c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.7 64-64 64z"/>
+          </svg>
+        </div>
+        {{ form.password1.errors }}
+      </p>
+
+      <p>
+        {{ form.password2.label_tag }}
+        <div class="input-container">
+          {{ form.password2 }}
+          <svg class="toggle-password" onclick="togglePassword('id_password2')" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+            <path d="M572.52 241.4C518.8 135.5 407.1 64 288 64S57.16 135.5 3.481 241.4a48.285 48.285 0 000 29.16C57.16 376.5 168.9 448 288 448s230.8-71.48 284.5-177.4a48.285 48.285 0 000-29.2zM288 400c-97.05 0-189.4-55.72-240.3-144C98.59 167.7 190.1 112 288 112s189.4 55.72 240.3 144C477.4 344.3 385 400 288 400zm0-256c-61.86 0-112 50.14-112 112s50.14 112 112 112 112-50.14 112-112S349.9 144 288 144zm0 176c-35.29 0-64-28.71-64-64s28.71-64 64-64 64 28.71 64 64-28.7 64-64 64z"/>
+          </svg>
+        </div>
+        {{ form.password2.errors }}
+      </p>
+
+      <button type="submit">S'inscrire</button>
+    </form>
+
+    <p class="login-link">
+      Tu as déjà un compte ? <a href="{% url 'login' %}">Connecte-toi ici</a>
+    </p>
+  </div>
+
+  <script>
+    function togglePassword(fieldId) {
+      const field = document.getElementById(fieldId);
+      if (field) {
+        field.type = field.type === "password" ? "text" : "password";
+      }
+    }
+  </script>
+</body>
+</html>

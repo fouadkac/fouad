@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer une licence</title>
+</head>
+<body>
+    <h2>Créer une nouvelle licence</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label>Email :</label>
+        <input type="email" name="email" required><br><br>
+
+        <label>ID Compte (login_id) :</label>
+        <input type="text" name="account" required><br><br>
+
+        <label>Broker :</label>
+        <input type="text" name="broker" required><br><br>
+
+        <label>Nom utilisateur :</label>
+        <input type="text" name="user_name"><br><br>
+
+        <label>Type de licence :</label>
+        <select name="license_type">
+            <option value="REAL" selected>REAL</option>
+            <option value="DEMO">DEMO</option>
+        </select><br><br>
+
+        <input type="submit" value="Créer licence">
+    </form>
+
+    {% if message %}
+        <p><strong>{{ message }}</strong></p>
+    {% endif %}
+</body>
+</html>

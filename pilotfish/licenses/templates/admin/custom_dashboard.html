@@ -1,0 +1,7 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Tableau de bord personnalisé</h1>
+<p>Nombre de robots : {{ robots_count }}</p>
+<p>Nombre de licences : {{ licenses_count }}</p>
+<a href="{% url 'admin:index' %}">Retour à l'accueil admin</a>
+{% endblock %}

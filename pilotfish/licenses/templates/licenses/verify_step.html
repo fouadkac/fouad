@@ -1,0 +1,7 @@
+{% if request.session.seed_phrase %}
+<div style="background:#f0f0f0; padding:15px; border:1px solid #ccc;">
+    <h3>Voici votre phrase de sécurité :</h3>
+    <p style="font-size:18px; color:green;">{{ request.session.seed_phrase|join:" " }}</p>
+    <small><b>Copiez-la et conservez-la en sécurité. Vous ne la reverrez plus après cette étape.</b></small>
+</div>
+{% endif %}

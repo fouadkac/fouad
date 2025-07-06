@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Historique des transactions</title></head>
+<body>
+    <h1>Historique de vos achats</h1>
+    <ul>
+    {% for tx in transactions %}
+        <li>{{ tx.license.key }} acheté à {{ tx.seller.username }} pour {{ tx.price }} €</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

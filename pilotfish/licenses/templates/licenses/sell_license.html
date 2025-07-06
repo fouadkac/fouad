@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Vendre une licence</title></head>
+<body>
+    <h1>Vendre une licence</h1>
+    <form method="post">
+        {% csrf_token %}
+        <select name="license_id">
+            {% for license in licenses %}
+                <option value="{{ license.id }}">{{ license.key }}</option>
+            {% endfor %}
+        </select>
+        Prix: <input type="number" name="price"><br>
+        <button type="submit">Mettre en vente</button>
+    </form>
+</body>
+</html>

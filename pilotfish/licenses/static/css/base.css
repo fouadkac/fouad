@@ -1,0 +1,205 @@
+/* Reset simple */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0e6fa; /* fond mauve clair */
+    color: #333;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    background: #6a0dad; /* mauve profond */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.sidebar-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.sidebar-menu {
+    list-style: none;
+    width: 100%;
+}
+
+.sidebar-menu li {
+    width: 100%;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 15px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+    background-color: #7e3fff;
+    border-left-color: #f0e6fa; /* contraste clair */
+    color: #f0e6fa;
+}
+
+/* Main content */
+.main-content {
+    margin-left: 220px; /* largeur sidebar */
+    padding: 20px 30px;
+    min-height: 100vh;
+}
+
+/* Topbar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 25px;
+}
+
+.topbar-left h2 {
+    color: #6a0dad;
+    font-weight: 700;
+}
+
+.topbar-right {
+    font-size: 0.95rem;
+}
+
+.logout-btn {
+    background: #7e3fff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-weight: 600;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #5a0fb8;
+}
+
+.btn-link {
+    color: #6a0dad;
+    text-decoration: none;
+    margin-left: 10px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+    color: #7e3fff;
+}
+
+/* Content section */
+.content-section {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(106, 13, 173, 0.15);
+}
+/* Modals */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    background-color: #1a1a2e;
+    color: white;
+    width: 400px;
+    max-width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    padding: 20px;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-submit {
+    background-color: #2575fc;
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #1a57c4;
+}
+
+.btn-close {
+    background-color: #666;
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    background-color: #444;
+}
+
+/* Overlay */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+#modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}

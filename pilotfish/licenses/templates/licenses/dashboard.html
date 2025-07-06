@@ -1,0 +1,157 @@
+{% extends "licenses/base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-card">
+        <h1 class="text-center">📊 Tableau de bord</h1>
+        <h2 class="text-muted text-center">Prix d'entrée/sortie</h2>
+        <canvas id="priceChart" height="120"></canvas>  <!-- Hauteur réduite ici -->
+    </div>
+</div>
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-card" style="margin-top: 2rem;">
+        <h2 class="text-center">🤖 Robots disponibles</h2>
+        {% if robots %}
+            <ul style="list-style: none; padding: 0;">
+                {% for robot in robots %}
+                    <li style="margin-bottom: 1.5rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem;">
+                        <h3 style="margin: 0; font-size: 1.2rem;">{{ robot.name }}</h3>
+                        <p style="font-size: 0.95rem; color: #555;">{{ robot.description }}</p>
+                        <a href="{{ robot.zip_file.url }}" download class="download-btn">
+                            📥 Télécharger le robot
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted text-center">Aucun robot disponible pour le moment.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    fetch("{% url 'solde_data' %}")
+    .then(response => response.json())
+    .then(data => {
+        const labels = [];
+        const buyPrices = [];
+        const sellPrices = [];
+
+        for (const row of data.slice(1)) {
+            const entry = row[0];
+            const heure = entry[0];
+            const type = entry[3];
+            const direction = entry[4];
+            const prixStr = entry[6];
+
+            if (type === "buy" && direction === "in") {
+                labels.push(heure);
+                buyPrices.push(parseFloat(prixStr));
+                sellPrices.push(null);
+            } else if (type === "sell" && direction === "out") {
+                labels.push(heure);
+                buyPrices.push(null);
+                sellPrices.push(parseFloat(prixStr));
+            }
+        }
+
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Prix Achat (buy)',
+                        data: buyPrices,
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                        spanGaps: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Prix Vente (sell)',
+                        data: sellPrices,
+                        borderColor: 'red',
+                        backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                        spanGaps: true,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Heure'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Prix'
+                        }
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => console.error("Erreur chargement JSON:", error));
+});
+</script>
+
+<style>
+.dashboard-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0.5rem;
+    width: 100%;
+}
+
+.dashboard-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+}
+
+.dashboard-card h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #003366;
+}
+
+.dashboard-card h2 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.download-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #007acc;
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #005fa3;
+}
+</style>
+
+{% endblock %}
